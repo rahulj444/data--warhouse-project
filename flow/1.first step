@@ -1,0 +1,146 @@
+-- 🧱 Drop and recreate the database
+DROP DATABASE IF EXISTS DataWarehouseAnalytics;
+CREATE DATABASE DataWarehouseAnalytics;
+USE DataWarehouseAnalytics;
+
+-- 📦 Create dimension tables
+CREATE TABLE dim_customers (
+  customer_key INT,
+  customer_id INT,
+  customer_number VARCHAR(50),
+  first_name VARCHAR(50),
+  last_name VARCHAR(50),
+  country VARCHAR(50),
+  marital_status VARCHAR(50),
+  gender VARCHAR(50),
+  birthdate VARCHAR(50),
+  create_date DATE
+);
+CREATE TABLE dim_products (
+  product_key INT,
+  product_id INT,
+  product_number VARCHAR(50),
+  product_name VARCHAR(50),
+  category_id VARCHAR(50),
+  category VARCHAR(50),
+  subcategory VARCHAR(50),
+  maintenance VARCHAR(50),
+  cost INT,
+  product_line VARCHAR(50),
+  start_date DATE
+);
+CREATE TABLE fact_sales (
+  order_number VARCHAR(50),
+  product_key INT,
+  customer_key INT,
+  order_date DATE,
+  shipping_date DATE,
+  due_date DATE,
+  sales_amount INT,
+  quantity TINYINT,
+  price INT
+);
+
+-- 🧩 Check current file import directory restriction
+SHOW VARIABLES LIKE 'secure_file_priv';
+
+-- ✅ Load data into dim_customers
+-- Using @variables + STR_TO_DATE to handle date format like 06-10-2025
+LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/gold.dim_customers.csv'
+INTO TABLE dim_customers
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS
+(@customer_key, @customer_id, @customer_number, @first_name, @last_name, @country,
+ @marital_status, @gender, @birthdate, @create_date)
+SET
+customer_key = @customer_key,
+customer_id = @customer_id,
+customer_number = @customer_number,
+first_name = @first_name,
+last_name = @last_name,
+country = @country,
+marital_status = @marital_status,
+gender = @gender,
+birthdate = @birthdate,
+create_date = STR_TO_DATE(TRIM(@create_date), '%d-%m-%Y');
+
+select * from dim_customers;
+
+-- ------------------------------
+-- Load data into dim_products
+-- ------------------------------
+LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/gold.dim_products.csv'
+INTO TABLE dim_products
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS
+(@product_key, @product_id, @product_number, @product_name, @category_id, @category,
+ @subcategory, @maintenance, @cost, @product_line, @start_date)
+SET
+    product_key    = TRIM(@product_key),
+    product_id     = TRIM(@product_id),
+    product_number = TRIM(@product_number),
+    product_name   = TRIM(@product_name),
+    category_id    = TRIM(@category_id),
+    category       = TRIM(@category),
+    subcategory    = TRIM(@subcategory),
+    maintenance    = TRIM(@maintenance),
+    cost           = TRIM(@cost),
+    product_line   = TRIM(@product_line),
+    start_date     = STR_TO_DATE(TRIM(@start_date), '%Y-%m-%d');
+
+
+select * from dim_products;
+-- Load data into fact_sales
+-- ------------------------------
+LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/gold.fact_sales.csv'
+INTO TABLE fact_sales
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS
+(@order_number, @product_key, @customer_key, @order_date, @shipping_date, @due_date,
+ @sales_amount, @quantity, @price)
+SET
+    order_number   = TRIM(@order_number),
+    product_key    = TRIM(@product_key),
+    customer_key   = TRIM(@customer_key),
+
+    order_date = CASE
+        WHEN TRIM(@order_date) REGEXP '^[0-9]{2}-[0-9]{2}-[0-9]{4}$'
+            THEN STR_TO_DATE(TRIM(@order_date), '%d-%m-%Y')
+        WHEN TRIM(@order_date) REGEXP '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'
+            THEN STR_TO_DATE(TRIM(@order_date), '%Y-%m-%d')
+        ELSE NULL
+    END,
+
+    shipping_date = CASE
+        WHEN TRIM(@shipping_date) REGEXP '^[0-9]{2}-[0-9]{2}-[0-9]{4}$'
+            THEN STR_TO_DATE(TRIM(@shipping_date), '%d-%m-%Y')
+        WHEN TRIM(@shipping_date) REGEXP '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'
+            THEN STR_TO_DATE(TRIM(@shipping_date), '%Y-%m-%d')
+        ELSE NULL
+    END,
+
+    due_date = CASE
+        WHEN TRIM(@due_date) REGEXP '^[0-9]{2}-[0-9]{2}-[0-9]{4}$'
+            THEN STR_TO_DATE(TRIM(@due_date), '%d-%m-%Y')
+        WHEN TRIM(@due_date) REGEXP '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'
+            THEN STR_TO_DATE(TRIM(@due_date), '%Y-%m-%d')
+        ELSE NULL
+    END,
+
+    sales_amount   = NULLIF(TRIM(@sales_amount), ''),
+    quantity       = NULLIF(TRIM(@quantity), ''),
+    price          = NULLIF(TRIM(@price), '');
+    
+-- in the above case i have done the data bulk loading using the excel data which is in the secure file  -prev area thanks --
+select * from dim_products;
+select * from dim_customers;
+select * from fact_sales;
+
+
+---loaded the entire required data--
