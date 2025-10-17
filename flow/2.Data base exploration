@@ -1,0 +1,8 @@
+-- Explore database metadata of the database and tables ,columns etc..
+SELECT * FROM information_schema.tables WHERE table_schema = 'datawarehouseanalytics';
+SELECT * FROM information_schema.columns WHERE table_schema = 'datawarehouseanalytics' ORDER BY 3, 5;
+
+-- Explore basic counts and distinct values
+SELECT DISTINCT country FROM dim_customers;
+SELECT DISTINCT gender FROM dim_customers;
+SELECT DISTINCT category, subcategory, product_name FROM dim_products ORDER BY 1,2,3;
