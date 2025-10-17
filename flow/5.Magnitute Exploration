@@ -1,0 +1,33 @@
+-- Summary Metrics
+SELECT 'total_sales' AS descriptive, SUM(sales_amount) AS metric FROM fact_sales
+UNION 
+SELECT 'total_quantity', SUM(quantity) FROM fact_sales
+UNION
+SELECT 'customer_count', COUNT(DISTINCT customer_key) FROM fact_sales
+UNION
+SELECT 'category_count', COUNT(category) FROM dim_products 
+UNION
+SELECT 'product_count', COUNT(subcategory) FROM dim_products;
+
+-- Product-wise and Country-wise Sales
+SELECT p.product_name AS Product, SUM(f.sales_amount) AS Total_Sales
+FROM fact_sales f
+JOIN dim_products p ON f.product_key = p.product_key
+GROUP BY p.product_name
+ORDER BY Total_Sales DESC;
+
+SELECT c.country AS Country, SUM(f.sales_amount) AS Total_Sales
+FROM fact_sales f
+JOIN dim_customers c ON f.customer_key = c.customer_key
+GROUP BY c.country
+ORDER BY Total_Sales DESC;
+
+-- Average Price and Product Count
+SELECT ROUND(AVG(f.price), 2) AS Average_Price FROM fact_sales f;
+SELECT COUNT(DISTINCT f.product_key) AS Total_Products_Sold FROM fact_sales f;
+
+-- Combined Summary Report
+SELECT 
+    (SELECT SUM(sales_amount) FROM fact_sales) AS Total_Sales,
+    (SELECT COUNT(DISTINCT product_key) FROM fact_sales) AS Total_Products_Sold,
+    (SELECT ROUND(AVG(price), 2) FROM fact_sales) AS Average_Price;
