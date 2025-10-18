@@ -1,74 +1,72 @@
-🌟 Exploratory Data Analysis (EDA)
-🧑‍💻 Author: Rahul Balijapally
-🎯 Problem Statement
+# 🌟 Exploratory Data Analysis (EDA)
 
-The goal of this project is to perform Exploratory Data Analysis (EDA) on a sales dataset to uncover meaningful insights such as sales trends, customer behavior, and top-performing products and regions.
+**🧑‍💻 Author:** Rahul Balijapally  
+**🎯 Problem Statement:**  
+Perform Exploratory Data Analysis (EDA) on a sales dataset to uncover insights such as sales trends, customer behavior, and top-performing products and regions.
 
-🧭 Steps Involved
-1️⃣ Database Exploration
+---
 
-Reviewed database structure and relationships.
+## 🧭 Steps Involved
 
-Understood table connections between facts and dimensions.
+### 1️⃣ Database Exploration
+- Reviewed database structure and relationships.
+- Understood fact and dimension table connections.
+- Checked data quality, column names, and data types.
 
-Checked data quality, column names, and data types.
+### 2️⃣ Dimensions Exploration
+- Analyzed dimension tables: customers, products, geography.
+- Verified consistency and uniqueness of dimension keys.
 
-2️⃣ Dimensions Exploration
+### 3️⃣ Date Exploration
+- Examined date-related columns: `order_date`, `shipping_date`, `due_date`.
+- Identified trends, seasons, and time-based variations.
 
-Analyzed dimension tables such as customers, products, and geography.
+### 4️⃣ Measures Exploration
+- Explored measurable fields: `sales_amount`, `quantity`, `price`.
+- Focused on key performance metrics (KPIs).
 
-Understood key attributes that describe each entity.
+### 5️⃣ Magnitude Analysis
+- Compared sales across countries, categories, and products.
+- Identified top contributors to overall sales.
 
-Verified consistency and uniqueness of dimension keys.
+### 6️⃣ Ranking Analysis
+- Determined Top N and Bottom N performers.
+- Ranked products, customers, and regions.
 
-3️⃣ Date Exploration<img width="2141" height="916" alt="Project Roadmap" src="https://github.com/user-attachments/assets/49ce6fd9-360c-4e05-84cb-02c2888f22dc" />
+### 7️⃣ _Over Analysis
+- Applied window functions for trends over time or categories.
+- Calculated running totals and period-over-period changes.
 
+### 8️⃣ Cumulative Analysis
+- Computed cumulative metrics like total sales or revenue.
+- Visualized overall contribution as time progresses.
 
-Examined date-related columns like order_date, shipping_date, and due_date.
+### 9️⃣ Performance Analysis
+- Evaluated KPIs across products, regions, and customers.
+- Highlighted high-performing and low-performing entities.
 
-Identified trends, seasons, and time-based variations in sales.
+### 🔟 Data Segmentation
+- Grouped data by customer type, region, or product category.
+- Analyzed segments individually for deeper insights.
 
-Ensured proper formatting and completeness of date values.
+### 1️⃣1️⃣ Part-to-Whole Analysis
+- Calculated each category’s or region’s contribution to total metrics.
+- Useful for prioritization and resource allocation.
 
-4️⃣ Measures Exploration
+### 1️⃣2️⃣ Reporting
+- Summarized insights into dashboards or reports.
+- Presented findings for business decision-making and continuous tracking.
 
-Explored measurable fields like sales amount, quantity, and price.
+---
 
-Identified key performance indicators (KPIs).
+## 🧩 Outcome
+- Clear understanding of data distribution and relationships.
+- Identification of top-performing products, regions, and segments.
+- Highlighted areas of improvement for low-performing entities.
+- Ready for predictive analytics, dashboards, and reporting.
 
-Focused on “big numbers” — total sales, revenue, and overall performance metrics.
+---
 
-5️⃣ Magnitude Analysis
-
-Compared the magnitude of sales across countries and products.
-
-Discovered which regions and categories contribute most to total sales.
-
-Visualized large vs. small contributors to understand overall balance.
-
-6️⃣ Ranking Analysis
-
-Determined Top N and Bottom N performers.
-
-Ranked products, customers, and countries based on total sales.
-
-Highlighted top-selling and least-selling entities for business focus.
-
-🧩 Outcome
-
-Clear understanding of data distribution and relationships.
-
-Identification of top-performing products and regions.
-
-Found areas of improvement for low-performing customers and categories.
-
-Ready for further predictive analysis or dashboard visualization.
-
-🪶 Summary
-
-This EDA provided valuable business insights by exploring, cleaning, and analyzing the data step-by-step.
+## 🪶 Summary
+This EDA provided step-by-step business insights by exploring, cleaning, analyzing, and reporting data.  
 It sets the foundation for data-driven decision-making and future analytics models.
-<img width="2141" height="916" alt="Project Roadmap" src="https://github.com/user-attachments/assets/ce00955b-9933-4fd0-9fa5-bd510d0c9cc0" />
-
-
-
