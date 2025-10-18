@@ -21,7 +21,8 @@ Understood key attributes that describe each entity.
 
 Verified consistency and uniqueness of dimension keys.
 
-3️⃣ Date Exploration
+3️⃣ Date Exploration<img width="2141" height="916" alt="Project Roadmap" src="https://github.com/user-attachments/assets/49ce6fd9-360c-4e05-84cb-02c2888f22dc" />
+
 
 Examined date-related columns like order_date, shipping_date, and due_date.
 
@@ -67,6 +68,7 @@ Ready for further predictive analysis or dashboard visualization.
 
 This EDA provided valuable business insights by exploring, cleaning, and analyzing the data step-by-step.
 It sets the foundation for data-driven decision-making and future analytics models.
+<img width="2141" height="916" alt="Project Roadmap" src="https://github.com/user-attachments/assets/ce00955b-9933-4fd0-9fa5-bd510d0c9cc0" />
 
 
-<img width="1160" height="1063" alt="image" src="https://github.com/user-attachments/assets/9d8397cc-a709-4ff8-b5fd-7f14e51807b7" />
+
