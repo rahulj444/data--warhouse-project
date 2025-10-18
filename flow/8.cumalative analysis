@@ -1,0 +1,50 @@
+===============================================================================
+Cumulative Analysis
+===============================================================================
+Purpose:
+    - To calculate running totals or moving averages for key metrics.
+    - To track performance over time cumulatively.
+    - Useful for growth analysis or identifying long-term trends.
+
+SQL Functions Used:
+    - Window Functions: SUM() OVER(), AVG() OVER()
+===============================================================================
+*/
+
+-- Calculate the total sales per month 
+-- and the running total of sales over time 
+/*
+===============================================================================
+Yearly Cumulative Sales and Quantity
+
+*/
+SELECT
+    DATE_FORMAT(order_date, '%Y') AS order_year,
+    SUM(sales_amount) AS total_sales,
+    SUM(SUM(sales_amount)) OVER (ORDER BY DATE_FORMAT(order_date, '%Y')) AS cumulative_sales,
+    SUM(quantity) AS total_quantity,
+    SUM(SUM(quantity)) OVER (ORDER BY DATE_FORMAT(order_date, '%Y')) AS cumulative_quantity
+FROM fact_sales
+WHERE order_date IS NOT NULL
+GROUP BY DATE_FORMAT(order_date, '%Y')
+ORDER BY 1;
+-- avg over the year and the month
+SELECT
+    DATE_FORMAT(order_date, '%Y') AS order_year,
+    DATE_FORMAT(order_date, '%m') AS order_month,
+    AVG(price) AS yearly_avg_price,
+    ROUND(
+        AVG(AVG(price)) OVER (ORDER BY DATE_FORMAT(order_date, '%Y')), 2
+    ) AS cumulative_avg_price
+FROM fact_sales
+WHERE order_date IS NOT NULL
+GROUP BY DATE_FORMAT(order_date, '%Y'),2
+ORDER BY 1,2;
+-- quatrely sales of the years 
+SELECT
+    YEAR(order_date) as year_sales, QUARTER(order_date) AS quarter,
+    SUM(sales_amount) AS total_sales
+FROM fact_sales
+WHERE order_date IS NOT NULL
+GROUP BY YEAR(order_date), QUARTER(order_date)
+ORDER BY 1;
